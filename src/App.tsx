@@ -1,32 +1,20 @@
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { Route, Routes } from "react-router"
+import Welcome from "./screens/Welcome"
+import Person from "./screens/Person"
+import People from "./screens/People"
+import Prays from "./screens/Prays"
+import NewPray from "./screens/NewPray"
+import Pray from "./screens/Pray"
 
-function App() {
-
-  const [status, setStatus] = useState('loading')
-
-  useEffect(() => {
-    const auth = getAuth()
-    return onAuthStateChanged(auth, (user) => {
-      console.log('user=', user)
-      if (user) {
-        setStatus('authenticated')
-      } else {
-        setStatus('unauthenticated')
-      }
-    })
-  }, [])
-
+export default function App() {
   return (
-    <div className="max-w-2xl mx-auto p-8">
-      <div className="text-2xl font-bold">いのり</div>
-      <div className="mt-4">
-        {status === 'loading' && 'Loading...'}
-        {status === 'authenticated' && 'Authenticated'}
-        {status === 'unauthenticated' && 'Unauthenticated'}
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<Welcome/>} />
+      <Route path="/people" element={<People/>} />
+      <Route path="/people/:personId" element={<Person />} />
+      <Route path="/people/:personId/prays" element={<Prays />} />
+      <Route path="/people/:personId/prays/new" element={<NewPray />} />
+      <Route path="/people/:personId/prays/:prayId" element={<Pray />} />
+    </Routes>
   )
 }
-
-export default App
